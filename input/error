@@ -1,0 +1,44 @@
+ls -ly
+ls : illegal option -- y
+usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]
+
+ls -lr dsfsdfl
+ls: dsfsdfl: No such file or directory
+
+The lstat() and stat() system calls will fail if:
+
+[EACCES] Search permission is denied for a component of the path prefix.
+
+[EFAULT] Sb or name points to an invalid address.
+
+[EIO] An I/O error occurs while reading from or writing to the file system.
+
+[ELOOP] Too many symbolic links are encountered in translating
+the pathname.  This is taken to be indicative of a loop-
+ing symbolic link.
+
+[ENAMETOOLONG] A component of a pathname exceeds {NAME_MAX} characters,
+or an entire path name exceeds {PATH_MAX} characters.
+
+[ENOENT] The named file does not exist.
+
+[ENOTDIR] A component of the path prefix is not a directory.
+
+The fstat(), lstat(), and stat() system calls will fail if:
+
+[EOVERFLOW] The file size in bytes or the number of blocks allocated
+to the file or the file serial number cannot be repre-
+sented correctly in the structure pointed to by buf.
+
+In addition to the errors returned by the stat() and lstat(), fstatat() may
+fail if:
+
+[EBADF] The path argument does not specify an absolute path and
+the fd argument is neither AT_FDCWD nor a valid file
+descriptor open for searching.
+
+[EINVAL] The value of the flag argument is not valid.
+
+[ENOTDIR] The path argument is not an absolute path and fd is nei-
+ther AT_FDCWD nor a file descriptor associated with a
+directory.

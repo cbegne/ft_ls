@@ -1,0 +1,76 @@
+sys/types.h
+
+grp.h
+struct group {
+	char   *gr_name;    /* Nom du groupe.          */
+	char   *gr_passwd;  /* Mot de passe du groupe. */
+	gid_t   gr_gid;     /* ID du groupe.           */
+	char  **gr_mem;     /* Membres du groupe.      */
+};
+
+sys/stat.h
+struct stat {
+	dev_t     st_dev;      /* ID du périphérique contenant le fichier */
+	ino_t     st_ino;      /* Numéro inœud */
+	mode_t    st_mode;     /* Protection */
+	nlink_t   st_nlink;    /* Nb liens matériels */
+	uid_t     st_uid;      /* UID propriétaire */
+	gid_t     st_gid;      /* GID propriétaire */
+	dev_t     st_rdev;     /* ID périphérique (si fichier spécial) */
+	off_t     st_size;     /* Taille totale en octets */
+	blksize_t st_blksize;  /* Taille de bloc pour E/S */
+	blkcnt_t  st_blocks;   /* Nombre de blocs alloués */
+	time_t    st_atime;    /* Heure dernier accès */
+	time_t    st_mtime;    /* Heure dernière modification */
+	time_t    st_ctime;    /* Heure dernier changement état */
+};
+
+dirent.h
+struct dirent {
+	ino_t          d_ino;       /* numéro d'inœud */
+	off_t          d_off;       /* décalage jusqu'à la dirent suivante */
+	unsigned short d_reclen;    /* longueur de cet enregistrement */
+	unsigned char  d_type;      /* type du fichier */
+	char           d_name[256]; /* nom du fichier */
+};
+
+pwd.h
+struct passwd {
+	char   *pw_name;   /* Nom d'utilisateur */
+	char   *pw_passwd; /* Mot de passe de l'utilisateur */
+	uid_t   pw_uid;    /* Identifiant de l'utilisateur */
+	gid_t   pw_gid;    /* Identifiant du groupe de l'utilisateur */
+	char   *pw_gecos;  /* Nom réel */
+	char   *pw_dir;    /* Répertoire personnel */
+	char   *pw_shell;  /* Interpréteur de commande */
+};
+
+- opendir/readdir/closedir;
+- stat et lstat (pour obtenir tout plein d'info sur le fichier ou le lien(juste le lien et pas le fichier pointé (voir plus bas pour ça))(évite fstat parce que ouvrir des file descriptor a la chaine c'est pas génial);
+- getpwuid et getgrgid (nécessaires pour connaitre le nom du owner et de son groupe par exemple);
+- readlink (pour obtenir ce que 'pointe' un lien);
+- ctime (pour ranger par date).
+[[pour un ls qui gérait -adFflRrt]]
+
+Les périphériques de caractères ont comme caractéristique de transmettre et recevoir les informations octet par octet : c'est par exemple le cas des ports séries ou parallèles, des modems, etc. Par contre, les périphériques par blocks transmettent ou reçoivent les informations sous forme de paquets d'octets, d'une taille fixe : c'est par exemple le cas des supports de mémoire de masse (disquettes, disques durs...). Ainsi, un même couple majeur/mineur peut désigner deux périphériques différents, selon que l'on considère un périphérique de caractères ou un périphérique par blocks.
+
+Quelques fichiers spéciaux et les périphériques associés
+Fichier	Majeur	Mineur	B/C	Périphérique
+/dev/mem	1	1	c	accès direct à la mémoire centrale
+/dev/fd0	2	0	b	premier lecteur de disquettes
+/dev/hda	3	0	b	disque maître sur le premier port IDE
+/dev/hda2	3	2	b	seconde partition primaire sur ce disque
+/dev/hdb	3	64	b	disque esclave sur le premier port IDE
+/dev/hdb5	3	69	b	première partition logique sur ce disque
+/dev/tty1	4	1	c	première console virtuelle
+/dev/lp0	6	2	c	troisième port parallèle (imprimante)
+/dev/sda	8	0	b	premier disque dur SCSI
+/dev/sda3	8	3	b	troisième partition sur ce disque
+/dev/sdb	8	16	b	deuxième disque dur SCSI
+/dev/psaux	10	1	c	port PS/2 (souris)
+/dev/kdb	11	0	c	accès direct au clavier
+/dev/scd0	11	0	b	premier CD-ROM SCSI
+/dev/sequencer	14	1	c	séquenceur de la carte son
+/dev/hdc	22	0	b	disque maître sur le second port IDE
+/dev/video0	81	0	c	Acquisition vidéo
+et ainsi de suite... la liste complète occuperait plusieurs pages !
