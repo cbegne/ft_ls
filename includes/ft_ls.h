@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:03:05 by cbegne            #+#    #+#             */
-/*   Updated: 2017/01/21 17:37:36 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/01/23 19:52:34 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,15 @@ typedef struct		s_ls
 
 void	get_option(t_option *opt, char *av); 
 void	error_usage(char c);
-t_ls	*get_stat(int ac, char *arg, t_ls *list);
+t_ls	*get_stat(char *arg, t_ls *list);
 void	get_type_perm(char *perm, mode_t mode);
 void	get_time(t_ls *list, time_t time);
+void	get_full_path(char *path, t_ls *new);
 void	form_tree(int ac, char **arg, t_ls **root, t_option *opt);
+void	form_dir_tree(char *path, t_ls *root, t_option *opt);
+void	add_node_default(t_ls *new, t_ls *tmp);
+void	add_node_time(t_ls *new, t_ls *tmp);
+
+void	ls_print_tree(t_ls *root, t_option *opt);
 
 #endif
