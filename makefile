@@ -6,7 +6,7 @@
 #    By: cbegne <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/19 16:45:33 by cbegne            #+#    #+#              #
-#    Updated: 2017/01/23 18:27:20 by cbegne           ###   ########.fr        #
+#    Updated: 2017/01/26 15:07:21 by cbegne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 SRCS_NAME =	main.c\
@@ -15,8 +15,9 @@ SRCS_NAME =	main.c\
 			get_stat2.c\
 			error.c\
 			form_tree.c\
-			open_dir.c\
-			print_tree.c
+			form_dir_tree.c\
+			print_tree.c\
+			get_print_padding.c
 SRCS_PATH =	srcs/
 SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 OBJ_NAME = $(SRCS_NAME:.c=.o)

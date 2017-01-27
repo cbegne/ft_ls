@@ -6,17 +6,15 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 14:49:20 by cbegne            #+#    #+#             */
-/*   Updated: 2017/01/19 17:20:15 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/01/26 15:11:26 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-/** ft_printf **/
-
 void	error_usage(char c)
 {
-	printf("ft_ls : illegal option -- %c\n", c);	
-	printf("usage: ft_ls [-larRt] [file ...]\n");
-	exit(0);
+	ft_printf("ft_ls : illegal option -- %c\n", c);	
+	ft_printf("usage: ft_ls [-larRt] [file ...]\n");
+	exit(EXIT_FAILURE);
 }

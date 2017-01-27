@@ -6,15 +6,15 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:03:05 by cbegne            #+#    #+#             */
-/*   Updated: 2017/01/23 19:52:34 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/01/27 18:11:50 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
 
-#include "../libft/libft.h"
-// #include "../ft_printf/includes/ft_printf.h"
+#include "../libft/includes/libft.h"
+#include "../libft/includes/ft_printf.h"
 #include <grp.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -31,6 +31,16 @@ typedef struct dirent	t_dirent;
 typedef struct passwd	t_passwd;
 typedef struct group	t_group;
 
+typedef	struct	s_pad
+{
+	size_t			len_lnk;
+	size_t			len_uid;
+	size_t			len_gid;
+	size_t			len_size;
+	size_t			len_min;
+	size_t			len_maj;
+}				t_pad;
+
 typedef struct	s_option
 {
 	int			l;
@@ -43,7 +53,7 @@ typedef struct	s_option
 typedef struct		s_ls
 {
 
-	dev_t			rdev;
+//	dev_t			rdev;
 	mode_t			mode;
 	nlink_t			nlink;
 	char			*uid;
@@ -60,6 +70,9 @@ typedef struct		s_ls
 	int				maj;
 	int				min;
 
+	int				nb_dir;
+	int				opened;
+
 	struct s_ls		*right;
 	struct s_ls		*left;
 }					t_ls;
@@ -72,9 +85,14 @@ void	get_time(t_ls *list, time_t time);
 void	get_full_path(char *path, t_ls *new);
 void	form_tree(int ac, char **arg, t_ls **root, t_option *opt);
 void	form_dir_tree(char *path, t_ls *root, t_option *opt);
+void	add_node(t_ls *new, t_ls *root, t_option *opt);
 void	add_node_default(t_ls *new, t_ls *tmp);
 void	add_node_time(t_ls *new, t_ls *tmp);
+void	get_print_padding(t_pad *p, t_ls *root, int dir);
 
-void	ls_print_tree(t_ls *root, t_option *opt);
+void	find_dir(t_ls *root, char **path);
+
+void	print_files(t_ls *root, t_option *opt, int dir);
+void	print_dir(t_ls **root, t_option *opt, int dir);
 
 #endif
