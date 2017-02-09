@@ -6,15 +6,15 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:03:05 by cbegne            #+#    #+#             */
-/*   Updated: 2017/01/27 18:11:50 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/09 12:37:35 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
 
-#include "../libft/includes/libft.h"
-#include "../libft/includes/ft_printf.h"
+#include "libft.h"
+#include "ft_printf.h"
 #include <grp.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -25,6 +25,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 typedef struct stat		t_stat;
 typedef struct dirent	t_dirent;
@@ -39,6 +40,7 @@ typedef	struct	s_pad
 	size_t			len_size;
 	size_t			len_min;
 	size_t			len_maj;
+	blkcnt_t		tot_blocks;
 }				t_pad;
 
 typedef struct	s_option
@@ -48,12 +50,11 @@ typedef struct	s_option
 	int			r;
 	int			upper_r;
 	int			t;
+	int			done;
 }				t_option;
 
 typedef struct		s_ls
 {
-
-//	dev_t			rdev;
 	mode_t			mode;
 	nlink_t			nlink;
 	char			*uid;
@@ -72,12 +73,13 @@ typedef struct		s_ls
 
 	int				nb_dir;
 	int				opened;
+	int				error;
 
 	struct s_ls		*right;
 	struct s_ls		*left;
 }					t_ls;
 
-void	get_option(t_option *opt, char *av); 
+int		get_option(t_option *opt, char **av); 
 void	error_usage(char c);
 t_ls	*get_stat(char *arg, t_ls *list);
 void	get_type_perm(char *perm, mode_t mode);
@@ -91,8 +93,11 @@ void	add_node_time(t_ls *new, t_ls *tmp);
 void	get_print_padding(t_pad *p, t_ls *root, int dir);
 
 void	find_dir(t_ls *root, char **path);
+void	find_dir_reverse(t_ls *root, char **path, t_option *opt);
 
 void	print_files(t_ls *root, t_option *opt, int dir);
-void	print_dir(t_ls **root, t_option *opt, int dir);
+void	print_dir(t_ls *root, t_option *opt, int nb_dir, int ac);
+
+void	ls_error(char *str, int errnum);
 
 #endif

@@ -6,10 +6,10 @@
 #    By: cbegne <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/19 16:45:33 by cbegne            #+#    #+#              #
-#    Updated: 2017/01/26 15:07:21 by cbegne           ###   ########.fr        #
+#    Updated: 2017/02/07 16:31:52 by cbegne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-SRCS_NAME =	main.c\
+SRCS =	main.c\
 			get_option.c\
 			get_stat.c\
 			get_stat2.c\
@@ -19,10 +19,10 @@ SRCS_NAME =	main.c\
 			print_tree.c\
 			get_print_padding.c
 SRCS_PATH =	srcs/
-SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
-OBJ_NAME = $(SRCS_NAME:.c=.o)
+SRCS_OLD = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
+OBJ = $(SRCS:.c=.o)
 OBJ_PATH = obj/
-OBJ	= $(addprefix $(OBJ_PATH), $(OBJ_NAME))
+OBJ_OLD	= $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 NAME = ft_ls
 FLAGS =	-Wall -Werror -Wextra
 INC	= -I./includes/
@@ -32,11 +32,11 @@ INC	= -I./includes/
 
 $(NAME): $(OBJ)
 	make -C libft/
-	gcc $(FLAGS) $(OBJ) $(INC) -L ./libft/ -lft -o $(NAME)
+	gcc $(FLAGS) $(INC) -L ./libft/ -lft -o $(NAME) $(OBJ)
 
 all: $(NAME)
 
-$(OBJ_PATH)%.o: $(SRCS_PATH)%.c
+%.o: %.c
 	@mkdir -p obj
 	gcc -c $(FLAGS) $< $(INC) -o $@
 

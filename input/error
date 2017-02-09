@@ -42,3 +42,19 @@ descriptor open for searching.
 [ENOTDIR] The path argument is not an absolute path and fd is nei-
 ther AT_FDCWD nor a file descriptor associated with a
 directory.
+
+➜  /dev ls -lR fd
+total 18
+crw--w----  1 cbegne  tty     16,   3 Feb  6 16:40 0
+crw--w----  1 cbegne  tty     16,   3 Feb  6 16:40 1
+crw--w----  1 cbegne  tty     16,   3 Feb  6 16:40 2
+dr--r--r--  3 root    wheel      4389 Feb  2 02:28 3
+dr--r--r--  3 root    wheel      4389 Feb  2 02:28 4
+dr--r--r--  1 root    wheel         0 Feb  2 02:28 5
+
+fd/3:
+ls: 3: Not a directory
+
+fd/4:
+ls: 4: Bad file descriptor
+ls: 5: directory causes a cycle
