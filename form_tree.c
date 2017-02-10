@@ -6,33 +6,33 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/21 15:53:01 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/07 15:54:23 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/10 16:19:35 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	add_node_default(t_ls *new, t_ls *tmp)
+void	add_node_default(t_ls *new, t_ls **tmp)
 {
-	while (tmp)
+	t_ls	*tmp2;
+
+	tmp2 = *tmp;
+	if (ft_strcmp(new->name, (*tmp)->name) < 0)
 	{
-		if (ft_strcmp(new->name, tmp->name) < 0)
+		*tmp = (*tmp)->right;
+		if ((*tmp) == NULL)
 		{
-			if (tmp->right == NULL)
-			{
-				tmp->right = new;
-				return ;
-			}
-			tmp = tmp->right;
+			tmp2->right = new;
+			return ;
 		}
-		else
+	}
+	else
+	{
+		*tmp = (*tmp)->left;
+		if ((*tmp) == NULL)
 		{
-			if (tmp->left == NULL)
-			{
-				tmp->left = new;
-				return ;
-			}
-			tmp = tmp->left;
+			tmp2->left = new;
+			return ;
 		}
 	}
 }
@@ -50,7 +50,7 @@ void	add_node_time(t_ls *new, t_ls *tmp)
 			}
 			tmp = tmp->right;
 		}
-		else
+		else if (new->time < tmp->time)
 		{
 			if (tmp->left == NULL)
 			{
@@ -59,15 +59,23 @@ void	add_node_time(t_ls *new, t_ls *tmp)
 			}
 			tmp = tmp->left;
 		}
+		else if (new->time == tmp->time)
+			add_node_default(new, &tmp);
 	}
 }
 
 void	add_node(t_ls *new, t_ls *root, t_option *opt)
 {
-		if (opt->t)
-			add_node_time(new, root);
-		else
-			add_node_default(new, root);
+	t_ls	*tmp;
+
+	tmp = root;
+	if (opt->t)
+		add_node_time(new, root);
+	else
+	{
+		while (tmp)
+			add_node_default(new, &tmp);
+	}
 }
 
 void	form_tree(int ac, char **arg, t_ls **root, t_option *opt)
@@ -78,16 +86,15 @@ void	form_tree(int ac, char **arg, t_ls **root, t_option *opt)
 	i = 0;
 	*root = (t_ls*)ft_memalloc(sizeof(t_ls));
 	if (ac == 0)
-		*root = get_stat(".", *root);
+		*root = get_stat(".", *root, opt);
 	else
-		*root = get_stat(arg[i++], *root);
+		*root = get_stat(arg[i++], *root, opt);
 	if ((*root)->perm[0] == 'd')
 		(*root)->nb_dir = 1;
-//	ft_printf("test");
 	while (i < ac)
 	{
 		new = (t_ls*)ft_memalloc(sizeof(t_ls));
-		new = get_stat(arg[i], new);
+		new = get_stat(arg[i], new, opt);
 		if (new->perm[0] == 'd')
 			(*root)->nb_dir++;
 		add_node(new, *root, opt);

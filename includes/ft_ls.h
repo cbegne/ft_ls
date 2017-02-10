@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:03:05 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/09 12:37:35 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/10 17:24:07 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ typedef struct	s_option
 	int			r;
 	int			upper_r;
 	int			t;
+	int			p;
 	int			done;
+	int			print;
 }				t_option;
 
 typedef struct		s_ls
@@ -81,19 +83,20 @@ typedef struct		s_ls
 
 int		get_option(t_option *opt, char **av); 
 void	error_usage(char c);
-t_ls	*get_stat(char *arg, t_ls *list);
+t_ls	*get_stat(char *arg, t_ls *list, t_option *opt);
 void	get_type_perm(char *perm, mode_t mode);
 void	get_time(t_ls *list, time_t time);
 void	get_full_path(char *path, t_ls *new);
 void	form_tree(int ac, char **arg, t_ls **root, t_option *opt);
 void	form_dir_tree(char *path, t_ls *root, t_option *opt);
 void	add_node(t_ls *new, t_ls *root, t_option *opt);
-void	add_node_default(t_ls *new, t_ls *tmp);
+void	add_node_default(t_ls *new, t_ls **tmp);
 void	add_node_time(t_ls *new, t_ls *tmp);
 void	get_print_padding(t_pad *p, t_ls *root, int dir);
 
 void	find_dir(t_ls *root, char **path);
 void	find_dir_reverse(t_ls *root, char **path, t_option *opt);
+int		do_not_open(t_ls *list);
 
 void	print_files(t_ls *root, t_option *opt, int dir);
 void	print_dir(t_ls *root, t_option *opt, int nb_dir, int ac);

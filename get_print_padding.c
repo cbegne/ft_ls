@@ -6,13 +6,13 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/25 18:11:29 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/08 11:58:02 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/10 16:18:11 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static	size_t	count_size(size_t nb)
+static size_t	count_size(size_t nb)
 {
 	size_t	i;
 
@@ -27,7 +27,7 @@ static	size_t	count_size(size_t nb)
 	return (i);
 }
 
-static void	padding(t_pad *p, t_ls *root, int dir)
+static void		padding(t_pad *p, t_ls *root, int dir)
 {
 	if (!root->error && ((dir == 0 && root->perm[0] != 'd') || dir))
 	{
@@ -43,14 +43,14 @@ static void	padding(t_pad *p, t_ls *root, int dir)
 			p->len_maj = count_size((size_t)root->maj);
 		if (root->min && count_size((size_t)root->min) > p->len_min)
 			p->len_min = count_size((size_t)root->min);
-		if (p->len_min && p->len_maj && 
+		if (p->len_min && p->len_maj && \
 				p->len_size < (p->len_min + p->len_maj + 3))
 			p->len_size = p->len_min + p->len_maj + 3;
 		p->tot_blocks = p->tot_blocks + root->blocks;
 	}
 }
 
-void	get_print_padding(t_pad *p, t_ls *root, int dir)
+void			get_print_padding(t_pad *p, t_ls *root, int dir)
 {
 	if (!root)
 		return ;

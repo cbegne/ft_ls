@@ -6,13 +6,13 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 17:10:06 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/08 12:54:57 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/10 16:23:41 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	get_full_path(char *path, t_ls *new)
+void		get_full_path(char *path, t_ls *new)
 {
 	int		len;
 	char	*tmp;
@@ -32,7 +32,6 @@ void	get_full_path(char *path, t_ls *new)
 	}
 	else
 		new->path = ft_strdup(new->name);
-//	printf("pth %s\n", new->path);
 }
 
 static void	get_uid_gid(t_ls *new, t_stat *stat)
@@ -64,25 +63,35 @@ static t_ls	*get_all_info(t_stat *stat, t_ls *new)
 		new->min = minor(stat->st_rdev);
 		new->maj = major(stat->st_rdev);
 	}
-//	printf("%d\n", new->min);
-//	printf("%d\n", new->maj);
 	return (new);
 }
 
-
-t_ls	*get_stat(char *path, t_ls *new)
+static void	get_lstat(t_ls *new, t_stat *all_stat)
 {
-	t_stat	stat;
-
-	if (new->name == NULL)
-		new->name = ft_strdup(path);
-	get_full_path(path, new);
-	if (lstat(new->path, &stat) == -1)
+	if (lstat(new->path, all_stat) == -1)
 	{
 		ls_error(new->name, errno);
 		new->error = 1;
 	}
 	else
-		new = get_all_info(&stat, new);
+		new = get_all_info(all_stat, new);
+}
+
+t_ls		*get_stat(char *path, t_ls *new, t_option *opt)
+{
+	t_stat	all_stat;
+
+	if (new->name == NULL)
+		new->name = ft_strdup(path);
+	get_full_path(path, new);
+	if (opt->l || opt->t)
+		get_lstat(new, &all_stat);
+	else
+	{
+		if (stat(new->path, &all_stat) == -1)
+			get_lstat(new, &all_stat);
+		else
+			new = get_all_info(&all_stat, new);
+	}
 	return (new);
 }

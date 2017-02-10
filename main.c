@@ -6,11 +6,12 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 13:08:27 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/07 16:27:44 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/10 16:20:31 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
 /**
 static void print_param(t_ls *root)
 {
@@ -29,7 +30,6 @@ static void print_param(t_ls *root)
 	printf("maj %d\n", root->maj);
 }
 **/
-
 int		main(int ac, char **av)
 {
 	t_option	opt;
@@ -40,13 +40,14 @@ int		main(int ac, char **av)
 	ac = ac - i;
 	ft_sort_params(ac + 1, av + i - 1);
 	form_tree(ac, av + i, &root, &opt);
-//	ft_printf("test");
 	print_files(root, &opt, 0);
-	while (root->nb_dir != 0)
+	if (opt.print == 1 && root->nb_dir)
+		ft_printf("\n");
+	while (root->nb_dir)
 	{
-		if (ac != 1 && ac - root->nb_dir > 0)
-			ft_printf("\n");
 		print_dir(root, &opt, root->nb_dir, ac);
+		if (ac != 1 && ac - root->nb_dir > 0 && root->nb_dir)
+			ft_printf("\n");
 	}
 	return (0);
 }

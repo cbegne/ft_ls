@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/20 13:00:08 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/08 14:44:15 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/10 16:24:09 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,15 @@ static void	get_perm(char *perm, mode_t mode)
 	perm[8] = (mode & S_IWOTH ? 'w' : '-');
 	perm[9] = (mode & S_IXOTH ? 'x' : '-');
 	perm[10] = 0;
+	if (mode & S_ISUID)
+		perm[3] = (perm[3] == 'x' ? 's' : 'S');
+	if (mode & S_ISGID)
+		perm[6] = (perm[6] == 'x' ? 's' : 'S');
+	if (mode & S_ISVTX)
+		perm[9] = (perm[9] == 'x' ? 't' : 'T');
 }
 
-void	get_type_perm(char *perm, mode_t mode)
+void		get_type_perm(char *perm, mode_t mode)
 {
 	if (S_ISREG(mode))
 		perm[0] = '-';
@@ -45,16 +51,17 @@ void	get_type_perm(char *perm, mode_t mode)
 	get_perm(perm, mode);
 }
 
-void	get_time(t_ls *list, time_t mtime)
+void		get_time(t_ls *list, time_t mtime)
 {
 	char	*long_date;
 	time_t	now;
 
 	long_date = ctime(&mtime);
 	now = time(&now);
-	if (now - mtime > 15778800 || now - mtime < -15778800)
+	if (long_date[20] == ' ')
+		list->date = ft_strnnjoin(long_date + 4, " 10000", 7, 7);
+	else if (now - mtime > 15778800 || now - mtime < -15778800)
 		list->date = ft_strnnjoin(long_date + 4, long_date + 19, 7, 5);
 	else
 		list->date = ft_strndup(long_date + 4, 12);
-//	printf("date %s\n", long_date);
 }

@@ -6,7 +6,7 @@
 #    By: cbegne <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/19 16:45:33 by cbegne            #+#    #+#              #
-#    Updated: 2017/02/07 16:31:52 by cbegne           ###   ########.fr        #
+#    Updated: 2017/02/09 14:13:09 by cbegne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 SRCS =	main.c\
@@ -17,6 +17,7 @@ SRCS =	main.c\
 			form_tree.c\
 			form_dir_tree.c\
 			print_tree.c\
+			print_dir_tree.c\
 			get_print_padding.c
 SRCS_PATH =	srcs/
 SRCS_OLD = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
