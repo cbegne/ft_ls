@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 13:08:27 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/14 19:41:16 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/15 10:34:42 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ int		main(int ac, char **av)
 		if (ac != 1 && ac - root->nb_dir > 0 && root->nb_dir)
 			ft_printf("\n");
 	}
+	free_nodes(&root);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 14:11:44 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/14 19:40:08 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/15 10:57:04 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,5 @@ void	print_dir(t_ls *root, t_option *opt, int nb_dir, int ac)
 		ft_printf("\n");
 		print_dir(new_root, opt, new_root->nb_dir, 2);
 	}
+	free_nodes(&new_root);
 }

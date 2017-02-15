@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 11:03:05 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/14 19:35:54 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/15 09:45:48 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,6 @@ void			print_files(t_ls *root, t_option *opt, int dir);
 void			print_dir(t_ls *root, t_option *opt, int nb_dir, int ac);
 void			ls_error(char *str, int errnum);
 void			error_usage(char c);
-void			free_node(t_ls **root);
+void			free_nodes(t_ls **root);
 
 #endif

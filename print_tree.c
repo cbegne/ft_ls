@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 15:33:39 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/14 19:40:13 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/15 11:30:18 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,14 @@ static void	print_tree_reverse(t_ls *root, t_pad *p, int dir, t_option *opt)
 
 void		print_files(t_ls *root, t_option *opt, int dir)
 {
-	t_pad	*p;
+	t_pad	p;
 
-	p = (t_pad*)ft_memalloc(sizeof(t_pad));
-	get_print_padding(p, root, dir);
+	ft_bzero(&p, sizeof(t_pad));
+	get_print_padding(&p, root, dir);
 	if (dir && opt->l && !opt->d)
-		ft_printf("total %lld\n", p->tot_blocks);
+		ft_printf("total %lld\n", p.tot_blocks);
 	if (opt->r)
-		print_tree_reverse(root, p, dir, opt);
+		print_tree_reverse(root, &p, dir, opt);
 	else
-		print_tree(root, p, dir, opt);
-	free(p);
+		print_tree(root, &p, dir, opt);
 }

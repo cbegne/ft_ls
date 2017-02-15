@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/26 16:49:06 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/14 14:48:34 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/15 11:19:12 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void		form_dir_tree(char *path, t_ls *root, t_option *opt)
 		ls_error(path, errno);
 		return ;
 	}
-	dirent = (t_dirent*)ft_memalloc(sizeof(t_dirent));
 	while ((dirent = readdir(dir)))
 	{
 		excl = 0;
@@ -67,7 +66,6 @@ void		form_dir_tree(char *path, t_ls *root, t_option *opt)
 		else if (excl == 0)
 			get_elem(path, root, dirent, opt);
 	}
-	free(dirent);
 	closedir(dir);
 }
 
