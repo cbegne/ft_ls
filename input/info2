@@ -56,7 +56,21 @@ getpwuid / getgrgid
 uid_t => donné par stat.st_uid
 gid_t => donné par stat.st_gid
 
-cas : 
+printf("perm %s\n", root->perm);
+printf("nlink %hu\n", root->nlink);
+printf("uid %s\n", root->uid);
+printf("gid %s\n", root->gid);
+printf("mode %hu\n", root->mode);
+printf("size %lld\n", root->size);
+printf("time %ld\n", root->time);
+printf("date %s\n", root->date);
+printf("blocks %lld\n", root->blocks);
+printf("name %s\n", root->name);
+printf("path %s\n", root->path);
+printf("min %d\n", root->min);
+printf("maj %d\n", root->maj);
+
+cas :
 
 ls -l 1 fichier
 -rw-r--r--  1 cbegne  2016_paris  151 Jan 19 15:07 error
@@ -84,4 +98,3 @@ total 8
 vide:
 
 ls -l 1 dossier vide
-

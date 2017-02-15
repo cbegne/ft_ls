@@ -6,13 +6,13 @@
 #    By: cbegne <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/05 14:18:02 by cbegne            #+#    #+#              #
-#    Updated: 2017/02/07 17:56:52 by cbegne           ###   ########.fr        #
+#    Updated: 2017/01/26 12:35:37 by cbegne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
 FLAGS = -Wall -Wextra -Werror
-SRCS = ft_memset.c\
+SRCS_NAME = ft_memset.c\
 	   ft_bzero.c\
 	   ft_memcpy.c\
 	   ft_memccpy.c\
@@ -91,9 +91,9 @@ SRCS = ft_memset.c\
 	   get_next_line.c\
 
 SRCS_PATH = ./srcs/
-SRCS_OLD = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
+SRCS = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
 
-PRINTF = ft_printf.c\
+PRINTF_NAME = ft_printf.c\
 		parse.c\
 		get_flag_length.c\
 		get_width_precision.c\
@@ -109,13 +109,13 @@ PRINTF = ft_printf.c\
 		apply_param_string.c
 
 PRINTF_PATH = ./ft_printf/
-PRINTF_OLD = $(addprefix $(PRINTF_PATH), $(PRINTF_NAME))
+PRINTF = $(addprefix $(PRINTF_PATH), $(PRINTF_NAME))
 
-OBJ = $(SRCS:.c=.o)\
-		$(PRINTF:.c=.o)
+OBJ_NAME = $(SRCS_NAME:.c=.o)\
+		$(PRINTF_NAME:.c=.o)
 OBJ_PATH = ./obj/
 
-OBJ_OLD = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
+OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 
 INC = ./includes/
 
@@ -125,7 +125,11 @@ $(NAME): $(OBJ)
 		@ar rc $(NAME) $(OBJ)
 		ranlib $(NAME)
 
-%.o: %.c
+$(OBJ_PATH)%.o: $(SRCS_PATH)%.c
+		@mkdir -p obj
+		@gcc -c $(FLAGS) $< -I $(INC) -o $@
+
+$(OBJ_PATH)%.o: $(PRINTF_PATH)%.c
 		@mkdir -p obj
 		@gcc -c $(FLAGS) $< -I $(INC) -o $@
 

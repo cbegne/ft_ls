@@ -6,13 +6,13 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/21 15:53:01 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/10 16:19:35 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/14 18:01:56 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	add_node_default(t_ls *new, t_ls **tmp)
+static void	add_node_default(t_ls *new, t_ls **tmp)
 {
 	t_ls	*tmp2;
 
@@ -37,40 +37,70 @@ void	add_node_default(t_ls *new, t_ls **tmp)
 	}
 }
 
-void	add_node_time(t_ls *new, t_ls *tmp)
+static void	add_node_ntime(t_ls *new, t_ls **tmp)
 {
-	while (tmp)
+	t_ls	*tmp2;
+
+	tmp2 = *tmp;
+	if (new->ntime > (*tmp)->ntime)
 	{
-		if (new->time > tmp->time)
+		*tmp = (*tmp)->right;
+		if (*tmp == NULL)
 		{
-			if (tmp->right == NULL)
-			{
-				tmp->right = new;
-				return ;
-			}
-			tmp = tmp->right;
+			tmp2->right = new;
+			return ;
 		}
-		else if (new->time < tmp->time)
-		{
-			if (tmp->left == NULL)
-			{
-				tmp->left = new;
-				return ;
-			}
-			tmp = tmp->left;
-		}
-		else if (new->time == tmp->time)
-			add_node_default(new, &tmp);
 	}
+	else if (new->ntime < (*tmp)->ntime)
+	{
+		*tmp = (*tmp)->left;
+		if (*tmp == NULL)
+		{
+			tmp2->left = new;
+			return ;
+		}
+	}
+	else if (new->ntime == (*tmp)->ntime)
+		add_node_default(new, tmp);
 }
 
-void	add_node(t_ls *new, t_ls *root, t_option *opt)
+static void	add_node_time(t_ls *new, t_ls **tmp)
+{
+	t_ls	*tmp2;
+
+	tmp2 = *tmp;
+	if (new->time > (*tmp)->time)
+	{
+		(*tmp) = (*tmp)->right;
+		if (*tmp == NULL)
+		{
+			tmp2->right = new;
+			return ;
+		}
+	}
+	else if (new->time < (*tmp)->time)
+	{
+		(*tmp) = (*tmp)->left;
+		if (*tmp == NULL)
+		{
+			tmp2->left = new;
+			return ;
+		}
+	}
+	else if (new->time == (*tmp)->time)
+		add_node_ntime(new, tmp);
+}
+
+void		add_node(t_ls *new, t_ls *root, t_option *opt)
 {
 	t_ls	*tmp;
 
 	tmp = root;
 	if (opt->t)
-		add_node_time(new, root);
+	{
+		while (tmp)
+			add_node_time(new, &tmp);
+	}
 	else
 	{
 		while (tmp)
@@ -78,7 +108,7 @@ void	add_node(t_ls *new, t_ls *root, t_option *opt)
 	}
 }
 
-void	form_tree(int ac, char **arg, t_ls **root, t_option *opt)
+void		form_tree(int ac, char **arg, t_ls **root, t_option *opt)
 {
 	int		i;
 	t_ls	*new;

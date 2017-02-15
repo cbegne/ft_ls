@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 14:11:44 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/10 16:22:18 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/14 19:40:08 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	print_dir(t_ls *root, t_option *opt, int nb_dir, int ac)
 
 	if (nb_dir == 0)
 		return ;
-	opt->done = 0;
+	opt->dir_found = 0;
 	if (!opt->r)
-		find_dir(root, &path);
+		find_dir(root, &path, opt);
 	else
 		find_dir_reverse(root, &path, opt);
 	if (ac > 1)
@@ -43,5 +43,4 @@ void	print_dir(t_ls *root, t_option *opt, int nb_dir, int ac)
 		ft_printf("\n");
 		print_dir(new_root, opt, new_root->nb_dir, 2);
 	}
-	free(new_root);
 }

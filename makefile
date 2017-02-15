@@ -6,7 +6,7 @@
 #    By: cbegne <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/19 16:45:33 by cbegne            #+#    #+#              #
-#    Updated: 2017/02/09 14:13:09 by cbegne           ###   ########.fr        #
+#    Updated: 2017/02/14 19:36:28 by cbegne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 SRCS =	main.c\
@@ -18,28 +18,23 @@ SRCS =	main.c\
 			form_dir_tree.c\
 			print_tree.c\
 			print_dir_tree.c\
-			get_print_padding.c
-SRCS_PATH =	srcs/
-SRCS_OLD = $(addprefix $(SRCS_PATH), $(SRCS_NAME))
+			get_print_padding.c\
+			free_node.c
 OBJ = $(SRCS:.c=.o)
-OBJ_PATH = obj/
-OBJ_OLD	= $(addprefix $(OBJ_PATH), $(OBJ_NAME))
 NAME = ft_ls
 FLAGS =	-Wall -Werror -Wextra
-INC	= -I./includes/
-
+INC	= includes/
 
 .PHONY: all, clean, fclean, re
 
 $(NAME): $(OBJ)
 	make -C libft/
-	gcc $(FLAGS) $(INC) -L ./libft/ -lft -o $(NAME) $(OBJ)
+	gcc $(FLAGS) -I $(INC) -L ./libft/ -lft -o $(NAME) $(OBJ)
 
 all: $(NAME)
 
 %.o: %.c
-	@mkdir -p obj
-	gcc -c $(FLAGS) $< $(INC) -o $@
+	gcc -c $(FLAGS) $< -I $(INC) -o $@
 
 clean:
 	make -C libft/ fclean

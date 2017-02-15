@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/23 15:33:39 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/10 17:23:10 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/14 19:40:13 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ static void	print_line(t_ls *root, t_pad *p, t_option *opt)
 
 	if (opt->l)
 	{
-		ft_printf("%s  ", root->perm);
-		ft_printf("%*hu ", p->len_lnk, root->nlink);
+		ft_printf("%s %*hu ", root->perm, p->len_lnk, root->nlink);
 		ft_printf("%-*s  ", p->len_uid, root->uid);
 		ft_printf("%-*s  ", p->len_gid, root->gid);
 		if (root->perm[0] != 'c' && root->perm[0] != 'b')
@@ -40,7 +39,6 @@ static void	print_line(t_ls *root, t_pad *p, t_option *opt)
 		readlink(root->path, buf, PATH_MAX);
 		ft_printf(" -> %s", buf);
 	}
-	ft_printf("\n");
 }
 
 static void	print_tree(t_ls *root, t_pad *p, int dir, t_option *opt)
@@ -53,6 +51,7 @@ static void	print_tree(t_ls *root, t_pad *p, int dir, t_option *opt)
 	{
 		opt->print = 1;
 		print_line(root, p, opt);
+		ft_printf("\n");
 	}
 	if (root->error)
 		opt->print = 0;
@@ -70,6 +69,7 @@ static void	print_tree_reverse(t_ls *root, t_pad *p, int dir, t_option *opt)
 	{
 		opt->print = 1;
 		print_line(root, p, opt);
+		ft_printf("\n");
 	}
 	if (root->error)
 		opt->print = 0;
@@ -83,7 +83,7 @@ void		print_files(t_ls *root, t_option *opt, int dir)
 
 	p = (t_pad*)ft_memalloc(sizeof(t_pad));
 	get_print_padding(p, root, dir);
-	if (dir && opt->l)
+	if (dir && opt->l && !opt->d)
 		ft_printf("total %lld\n", p->tot_blocks);
 	if (opt->r)
 		print_tree_reverse(root, p, dir, opt);

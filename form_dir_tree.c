@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/26 16:49:06 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/10 16:21:41 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/14 14:48:34 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,21 @@ void		form_dir_tree(char *path, t_ls *root, t_option *opt)
 	closedir(dir);
 }
 
-void		find_dir(t_ls *root, char **path)
+void		find_dir(t_ls *root, char **path, t_option *opt)
 {
 	if (!root)
 		return ;
 	if (root->right)
-		find_dir(root->right, path);
-	if (root->perm[0] == 'd' && !root->opened)
+		find_dir(root->right, path, opt);
+	if (root->perm[0] == 'd' && root->opened == 0 && opt->dir_found == 0)
 	{
 		root->opened = 1;
+		opt->dir_found = 1;
 		*path = root->path;
 		return ;
 	}
 	if (root->left)
-		find_dir(root->left, path);
+		find_dir(root->left, path, opt);
 	return ;
 }
 
@@ -94,10 +95,10 @@ void		find_dir_reverse(t_ls *root, char **path, t_option *opt)
 		return ;
 	if (root->left)
 		find_dir_reverse(root->left, path, opt);
-	if (root->perm[0] == 'd' && root->opened == 0 && opt->done == 0)
+	if (root->perm[0] == 'd' && root->opened == 0 && opt->dir_found == 0)
 	{
 		root->opened = 1;
-		opt->done = 1;
+		opt->dir_found = 1;
 		*path = root->path;
 		return ;
 	}
