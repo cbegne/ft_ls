@@ -6,13 +6,13 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 17:10:06 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/14 18:13:40 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/15 15:50:54 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void	get_full_path(char *path, t_ls *new, t_option *opt)
+static void	get_full_path(char *path, t_ls *new)
 {
 	int		len;
 	char	*tmp;
@@ -32,11 +32,9 @@ static void	get_full_path(char *path, t_ls *new, t_option *opt)
 	}
 	else
 		new->path = ft_strdup(new->name);
-	if (opt->upper_a && do_not_open(new))
-		new->error = 1;
 }
 
-static void	get_uid_gid(t_ls *new, t_stat *stat)
+static t_ls	*get_all_info(t_stat *stat, t_ls *new, t_option *opt)
 {
 	t_passwd	passwd;
 	t_group		group;
@@ -45,14 +43,9 @@ static void	get_uid_gid(t_ls *new, t_stat *stat)
 	new->uid = ft_strdup(passwd.pw_name);
 	group = *getgrgid(stat->st_gid);
 	new->gid = ft_strdup(group.gr_name);
-}
-
-static t_ls	*get_all_info(t_stat *stat, t_ls *new, t_option *opt)
-{
 	new->mode = stat->st_mode;
 	new->nlink = stat->st_nlink;
 	new->blocks = stat->st_blocks;
-	get_uid_gid(new, stat);
 	get_time(stat, new, opt);
 	get_date(new, new->time);
 	get_type_perm(new->perm, new->mode, new->path);
@@ -80,7 +73,7 @@ t_ls		*get_stat(char *path, t_ls *new, t_option *opt)
 
 	if (new->name == NULL)
 		new->name = ft_strdup(path);
-	get_full_path(path, new, opt);
+	get_full_path(path, new);
 	if (opt->l || opt->t)
 		get_lstat(new, &all_stat, opt);
 	else
@@ -90,5 +83,7 @@ t_ls		*get_stat(char *path, t_ls *new, t_option *opt)
 		else
 			new = get_all_info(&all_stat, new, opt);
 	}
+	if (opt->upper_a && do_not_open(new))
+		new->error = 1;
 	return (new);
 }

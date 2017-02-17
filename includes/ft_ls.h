@@ -92,8 +92,6 @@ void			get_date(t_ls *list, time_t time);
 void			form_tree(int ac, char **arg, t_ls **root, t_option *opt);
 void			form_dir_tree(char *path, t_ls *root, t_option *opt);
 void			add_node(t_ls *new, t_ls *root, t_option *opt);
-void			find_dir(t_ls *root, char **path, t_option *opt);
-void			find_dir_reverse(t_ls *root, char **path, t_option *opt);
 int				do_not_open(t_ls *list);
 void			get_print_padding(t_pad *p, t_ls *root, int dir);
 void			print_files(t_ls *root, t_option *opt, int dir);

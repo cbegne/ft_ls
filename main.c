@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/18 13:08:27 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/15 10:34:42 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/15 15:09:50 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		main(int ac, char **av)
 	while (!opt.d && root->nb_dir)
 	{
 		print_dir(root, &opt, root->nb_dir, ac);
-		if (ac != 1 && ac - root->nb_dir > 0 && root->nb_dir)
+		if (ac != 1 && root->nb_dir)
 			ft_printf("\n");
 	}
 	free_nodes(&root);
