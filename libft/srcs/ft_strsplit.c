@@ -6,11 +6,12 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/11 10:28:02 by cbegne            #+#    #+#             */
-/*   Updated: 2016/12/07 18:30:34 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/16 16:17:06 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static int		number_words(char const *s, char c)
 {
@@ -47,7 +48,7 @@ char			**ft_strsplit(char const *s, char c)
 		j = 0;
 		while (*s == c)
 			s++;
-		while (s[j] != c)
+		while (s[j] && s[j] != c)
 			j++;
 		if (!(tab[i] = ft_strndup(s, j)))
 			return (NULL);
