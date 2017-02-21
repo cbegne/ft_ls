@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/26 16:49:06 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/15 16:49:53 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/18 20:51:59 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,20 @@ int			do_not_open(t_ls *list)
 	if (!ft_strcmp(list->name, ".") || !ft_strcmp(list->name, ".."))
 		return (1);
 	return (0);
+}
+
+static char	*error_name(char *path)
+{
+	char	*name;
+	int		len;
+	int		i;
+
+	len = ft_strlen(path);
+	i = len;
+	while (i >= 0 && path[i] != '/')
+		i--;
+	name = ft_strdup(path + i + 1);
+	return (name);
 }
 
 static void	new_elem(char *path, t_ls *list, t_ls *root, t_option *opt)
@@ -53,10 +67,13 @@ void		form_dir_tree(char *path, t_ls *root, t_option *opt)
 {
 	DIR			*dir;
 	t_dirent	*dirent;
+	char		*name;
 
 	if ((dir = opendir(path)) == NULL)
 	{
-		ls_error(path, errno);
+		name = error_name(path);
+		ls_error(name, errno);
+		free(name);
 		return ;
 	}
 	while ((dirent = readdir(dir)))

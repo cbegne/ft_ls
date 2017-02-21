@@ -6,7 +6,7 @@
 /*   By: cbegne <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/19 14:49:20 by cbegne            #+#    #+#             */
-/*   Updated: 2017/02/15 16:47:06 by cbegne           ###   ########.fr       */
+/*   Updated: 2017/02/20 12:34:48 by cbegne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	error_usage(char c)
 	ft_putstr_fd("ls: illegal option -- ", 2);
 	ft_putchar_fd(c, 2);
 	ft_putchar_fd('\n', 2);
-	ft_putstr_fd("usage: ls [-Ralrt1] [file ...]\n", 2);
+	ft_putstr_fd("usage: ls [-ARacdlprtu1] [file ...]\n", 2);
 	exit(EXIT_FAILURE);
 }
 

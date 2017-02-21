@@ -6,7 +6,7 @@
 #    By: cbegne <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/01/19 16:45:33 by cbegne            #+#    #+#              #
-#    Updated: 2017/02/15 12:50:30 by cbegne           ###   ########.fr        #
+#    Updated: 2017/02/20 16:56:26 by cbegne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ all: $(NAME)
 	gcc -c $(FLAGS) -I $(INC) -o $@ $<
 
 clean:
-	make -C libft/ fclean
+	make -C libft/ clean
 	/bin/rm -rf $(OBJ)
 
 fclean: clean
